@@ -16,12 +16,12 @@ namespace SmartRides.Models.Entities
         public int TicketClassAttributeId { get; set; }
         public int DiscountReasonId { get; set; }
         public int CustomerId { get; set; }
-        public int DisplayingId { get; set; }
+        public int RideScheduleId { get; set; }
 
         public TicketClassAttribute TicketClassAttribute { get; set; }
         public DiscountReason DiscountReason { get; set; }
         public User Customer { get; set; }
-        public Displaying Displaying { get; set; }
+        public RideSchedule RideSchedule { get; set; }
         public TicketStatus TicketStatus { get; set; }
         public TicketType TicketType { get; set; }
 

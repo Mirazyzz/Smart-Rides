@@ -482,6 +482,14 @@ namespace SmartRides.Data
             builder.Entity<Schedule>()
                 .HasKey(p => p.ScheduleId);
 
+            builder.Entity<Schedule>()
+                .Property(p => p.DepartureTime)
+                .HasColumnType("time");
+
+            builder.Entity<Schedule>()
+                .Property(p => p.ArrivalTime)
+                .HasColumnType("time");
+
             #endregion
 
             #region Ride Schedule
@@ -504,7 +512,7 @@ namespace SmartRides.Data
                 .WithMany(rs => rs.RideSchedules)
                 .HasForeignKey(p => p.ScheduleId)
                 .HasConstraintName("Schedule_FK")
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.NoAction);            
 
             #endregion
 
@@ -552,12 +560,6 @@ namespace SmartRides.Data
                 .HasConstraintName("Customer_FK");
 
             builder.Entity<Ticket>()
-                .HasOne(p => p.Displaying)
-                .WithMany(d => d.Tickets)
-                .HasForeignKey(p => p.DisplayingId)
-                .HasConstraintName("Displaying_FK");
-
-            builder.Entity<Ticket>()
                 .HasOne(p => p.DiscountReason)
                 .WithMany(dr => dr.Tickets)
                 .HasForeignKey(p => p.DiscountReasonId)
@@ -568,6 +570,12 @@ namespace SmartRides.Data
                 .WithMany(tca => tca.Tickets)
                 .HasForeignKey(p => p.TicketClassAttributeId)
                 .HasConstraintName("TicketClassAttribute_FK");
+
+            builder.Entity<Ticket>()
+                .HasOne(p => p.RideSchedule)
+                .WithMany(rs => rs.Tickets)
+                .HasForeignKey(p => p.RideScheduleId)
+                .HasConstraintName("RideSchedule_FK");
 
             #endregion
 

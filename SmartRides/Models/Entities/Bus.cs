@@ -16,6 +16,7 @@ namespace SmartRides.Models.Entities
         public bool HasCharger { get; set; }
         public bool HasBuffet { get; set; }
 
+        public BusType BusType { get; set; }
         public Driver Driver { get; set; }
 
         public ICollection<AvailableSeat> AvailableSeats { get; private set; }

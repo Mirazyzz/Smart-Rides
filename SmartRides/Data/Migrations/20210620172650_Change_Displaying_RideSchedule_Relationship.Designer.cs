@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartRides.Data;
 
 namespace SmartRides.Data.Migrations
 {
     [DbContext(typeof(RidesDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210620172650_Change_Displaying_RideSchedule_Relationship")]
+    partial class Change_Displaying_RideSchedule_Relationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,9 +258,6 @@ namespace SmartRides.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BusType")
-                        .HasColumnType("int");
-
                     b.Property<int>("FloorCount")
                         .HasColumnType("int");
 
@@ -292,6 +291,22 @@ namespace SmartRides.Data.Migrations
                     b.HasKey("DiscountReasonId");
 
                     b.ToTable("DiscountReason");
+                });
+
+            modelBuilder.Entity("SmartRides.Models.Entities.Displaying", b =>
+                {
+                    b.Property<int>("DisplayingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AvailableSeatsCount")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeparted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("DisplayingId");
+
+                    b.ToTable("Displaying");
                 });
 
             modelBuilder.Entity("SmartRides.Models.Entities.Driver", b =>
@@ -398,6 +413,9 @@ namespace SmartRides.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("DisplayingId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RideDateId")
                         .HasColumnType("int");
 
@@ -442,11 +460,11 @@ namespace SmartRides.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<TimeSpan>("ArrivalTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("ArrivalTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("DepartureTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("DepartureTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ScheduleId");
 
@@ -487,11 +505,11 @@ namespace SmartRides.Data.Migrations
                     b.Property<int>("DiscountReasonId")
                         .HasColumnType("int");
 
+                    b.Property<int>("DisplayingId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("RideScheduleId")
-                        .HasColumnType("int");
 
                     b.Property<int>("TicketClassAttributeId")
                         .HasColumnType("int");
@@ -511,7 +529,7 @@ namespace SmartRides.Data.Migrations
 
                     b.HasIndex("DiscountReasonId");
 
-                    b.HasIndex("RideScheduleId");
+                    b.HasIndex("DisplayingId");
 
                     b.HasIndex("TicketClassAttributeId");
 
@@ -718,6 +736,17 @@ namespace SmartRides.Data.Migrations
                     b.Navigation("Seat");
                 });
 
+            modelBuilder.Entity("SmartRides.Models.Entities.Displaying", b =>
+                {
+                    b.HasOne("SmartRides.Models.Entities.RideSchedule", "RideSchedule")
+                        .WithOne("Displaying")
+                        .HasForeignKey("SmartRides.Models.Entities.Displaying", "DisplayingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RideSchedule");
+                });
+
             modelBuilder.Entity("SmartRides.Models.Entities.Driver", b =>
                 {
                     b.HasOne("SmartRides.Models.Entities.Bus", "Bus")
@@ -821,10 +850,10 @@ namespace SmartRides.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartRides.Models.Entities.RideSchedule", "RideSchedule")
+                    b.HasOne("SmartRides.Models.Entities.Displaying", "Displaying")
                         .WithMany("Tickets")
-                        .HasForeignKey("RideScheduleId")
-                        .HasConstraintName("RideSchedule_FK")
+                        .HasForeignKey("DisplayingId")
+                        .HasConstraintName("Displaying_FK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -839,7 +868,7 @@ namespace SmartRides.Data.Migrations
 
                     b.Navigation("DiscountReason");
 
-                    b.Navigation("RideSchedule");
+                    b.Navigation("Displaying");
 
                     b.Navigation("TicketClassAttribute");
                 });
@@ -875,6 +904,11 @@ namespace SmartRides.Data.Migrations
                     b.Navigation("Tickets");
                 });
 
+            modelBuilder.Entity("SmartRides.Models.Entities.Displaying", b =>
+                {
+                    b.Navigation("Tickets");
+                });
+
             modelBuilder.Entity("SmartRides.Models.Entities.Location", b =>
                 {
                     b.Navigation("DestinationPoints");
@@ -900,7 +934,7 @@ namespace SmartRides.Data.Migrations
                 {
                     b.Navigation("AvailableSeats");
 
-                    b.Navigation("Tickets");
+                    b.Navigation("Displaying");
                 });
 
             modelBuilder.Entity("SmartRides.Models.Entities.Schedule", b =>

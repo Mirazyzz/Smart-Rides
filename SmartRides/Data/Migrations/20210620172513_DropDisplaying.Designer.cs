@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartRides.Data;
 
 namespace SmartRides.Data.Migrations
 {
     [DbContext(typeof(RidesDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210620172513_DropDisplaying")]
+    partial class DropDisplaying
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,9 +258,6 @@ namespace SmartRides.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BusType")
-                        .HasColumnType("int");
-
                     b.Property<int>("FloorCount")
                         .HasColumnType("int");
 
@@ -398,6 +397,9 @@ namespace SmartRides.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("DisplayingId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RideDateId")
                         .HasColumnType("int");
 
@@ -442,11 +444,11 @@ namespace SmartRides.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<TimeSpan>("ArrivalTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("ArrivalTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("DepartureTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("DepartureTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ScheduleId");
 
@@ -487,11 +489,11 @@ namespace SmartRides.Data.Migrations
                     b.Property<int>("DiscountReasonId")
                         .HasColumnType("int");
 
+                    b.Property<int>("DisplayingId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("RideScheduleId")
-                        .HasColumnType("int");
 
                     b.Property<int>("TicketClassAttributeId")
                         .HasColumnType("int");
@@ -510,8 +512,6 @@ namespace SmartRides.Data.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("DiscountReasonId");
-
-                    b.HasIndex("RideScheduleId");
 
                     b.HasIndex("TicketClassAttributeId");
 
@@ -821,13 +821,6 @@ namespace SmartRides.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartRides.Models.Entities.RideSchedule", "RideSchedule")
-                        .WithMany("Tickets")
-                        .HasForeignKey("RideScheduleId")
-                        .HasConstraintName("RideSchedule_FK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SmartRides.Models.Entities.TicketClassAttribute", "TicketClassAttribute")
                         .WithMany("Tickets")
                         .HasForeignKey("TicketClassAttributeId")
@@ -838,8 +831,6 @@ namespace SmartRides.Data.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("DiscountReason");
-
-                    b.Navigation("RideSchedule");
 
                     b.Navigation("TicketClassAttribute");
                 });
@@ -899,8 +890,6 @@ namespace SmartRides.Data.Migrations
             modelBuilder.Entity("SmartRides.Models.Entities.RideSchedule", b =>
                 {
                     b.Navigation("AvailableSeats");
-
-                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("SmartRides.Models.Entities.Schedule", b =>

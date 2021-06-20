@@ -7,6 +7,7 @@ namespace SmartRides.Models.Entities
         public RideSchedule()
         {
             AvailableSeats = new List<AvailableSeat>();
+            Tickets = new List<Ticket>();
         }
 
         public int RideScheduleId { get; set; }
@@ -17,5 +18,6 @@ namespace SmartRides.Models.Entities
         public Schedule Schedule { get; set; }
 
         public ICollection<AvailableSeat> AvailableSeats { get; private set; }
+        public ICollection<Ticket> Tickets { get; set; }
     }
 }
