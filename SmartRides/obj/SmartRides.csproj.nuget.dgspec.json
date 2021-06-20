@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Csharp\\OOP\\Final-Project\\SmartRides\\SmartRides\\SmartRides.csproj": {}
+    "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Smart-Rides\\SmartRides\\SmartRides.csproj": {}
   },
   "projects": {
-    "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Csharp\\OOP\\Final-Project\\SmartRides\\SmartRides\\SmartRides.csproj": {
+    "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Smart-Rides\\SmartRides\\SmartRides.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Csharp\\OOP\\Final-Project\\SmartRides\\SmartRides\\SmartRides.csproj",
+        "projectUniqueName": "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Smart-Rides\\SmartRides\\SmartRides.csproj",
         "projectName": "SmartRides",
-        "projectPath": "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Csharp\\OOP\\Final-Project\\SmartRides\\SmartRides\\SmartRides.csproj",
+        "projectPath": "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Smart-Rides\\SmartRides\\SmartRides.csproj",
         "packagesPath": "C:\\Users\\khido\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Csharp\\OOP\\Final-Project\\SmartRides\\SmartRides\\obj\\",
+        "outputPath": "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Smart-Rides\\SmartRides\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"

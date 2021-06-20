@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "//JTy0pq2gPsH7IIwG8U/isutd6/Matuy//iAFjt8vMV82FBcY0/j834eXCjtyeCV8GEnYPLBYOxFehW1+pYGA==",
+  "dgSpecHash": "aTMn/V9HKF3djnYN544RBQQaCcresT4E9D3y4CWjRpHwfjnzuenihAYCYJE+1azmK9K7Mon+udCuKOi5j1E32g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Csharp\\OOP\\Final-Project\\SmartRides\\SmartRides\\SmartRides.csproj",
+  "projectFilePath": "C:\\Users\\khido\\OneDrive\\Документы\\GitHub\\Smart-Rides\\SmartRides\\SmartRides.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\khido\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\khido\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.3\\microsoft.aspnetcore.cryptography.internal.5.0.3.nupkg.sha512",
