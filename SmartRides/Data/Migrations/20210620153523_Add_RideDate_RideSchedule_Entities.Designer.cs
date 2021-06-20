@@ -10,7 +10,7 @@ using SmartRides.Data;
 namespace SmartRides.Data.Migrations
 {
     [DbContext(typeof(RidesDbContext))]
-    [Migration("20210620151248_Add_RideDate_RideSchedule_Entities")]
+    [Migration("20210620153523_Add_RideDate_RideSchedule_Entities")]
     partial class Add_RideDate_RideSchedule_Entities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -622,7 +622,7 @@ namespace SmartRides.Data.Migrations
                     b.HasOne("SmartRides.Models.Entities.Ride", "Ride")
                         .WithMany("RideDates")
                         .HasForeignKey("RideId")
-                        .HasConstraintName("Ride_FK")
+                        .HasConstraintName("RideDate_Ride_FK")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 

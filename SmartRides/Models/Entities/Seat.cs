@@ -6,7 +6,7 @@ namespace SmartRides.Models.Entities
     {
         public Seat()
         {
-            BusSeats = new List<BusSeat>();
+            AvailableSeats = new List<AvailableSeat>();
         }
 
         public int SeatId { get; set; }
@@ -14,6 +14,6 @@ namespace SmartRides.Models.Entities
         public int Row { get; set; }
         public bool IsAtWindow { get; set; }
 
-        public ICollection<BusSeat> BusSeats { get; private set; }
+        public ICollection<AvailableSeat> AvailableSeats { get; private set; }
     }
 }

@@ -18,8 +18,7 @@ namespace SmartRides.Data
         public DbSet<RideStop> RideStops { get; set; }
         public DbSet<Bus> Buses { get; set; }
         public DbSet<Driver> Drivers { get; set; }
-        public DbSet<Seat> Seats { get; set; }
-        public DbSet<BusSeat> BusSeats { get; set; }
+        public DbSet<Seat> Seats { get; set; }        
         public DbSet<User> RideUsers { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Employee> Employees { get; set; }
@@ -398,21 +397,21 @@ namespace SmartRides.Data
 
             #region Bus Seat
 
-            builder.Entity<BusSeat>()
-                .ToTable(nameof(BusSeat));
+            builder.Entity<AvailableSeat>()
+                .ToTable(nameof(AvailableSeat));
 
-            builder.Entity<BusSeat>()
-                .HasKey(p => p.BusSeatId);
+            builder.Entity<AvailableSeat>()
+                .HasKey(p => p.AvailableSeatId);
 
-            builder.Entity<BusSeat>()
+            builder.Entity<AvailableSeat>()
                 .HasOne(p => p.Bus)
-                .WithMany(b => b.BusSeats)
+                .WithMany(b => b.AvailableSeats)
                 .HasForeignKey(p => p.BusId)
                 .HasConstraintName("Bus_FK");
 
-            builder.Entity<BusSeat>()
+            builder.Entity<AvailableSeat>()
                 .HasOne(p => p.Seat)
-                .WithMany(s => s.BusSeats)
+                .WithMany(s => s.AvailableSeats)
                 .HasForeignKey(p => p.SeatId)
                 .HasConstraintName("Seat_FK");
 
@@ -483,12 +482,22 @@ namespace SmartRides.Data
                 .HasOne(p => p.Ride)
                 .WithMany(r => r.RideDates)
                 .HasForeignKey(p => p.RideId)
-                .HasConstraintName("Ride_FK")
+                .HasConstraintName("RideDate_Ride_FK")
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<RideDate>()
                 .Property(p => p.Date)
                 .HasColumnType("date");
+
+            #endregion
+
+            #region Schedule
+
+            builder.Entity<Schedule>()
+                .ToTable(nameof(Schedule));
+
+            builder.Entity<Schedule>()
+                .HasKey(p => p.ScheduleId);
 
             #endregion
 
@@ -507,8 +516,20 @@ namespace SmartRides.Data
                 .HasConstraintName("RideDate_FK")
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Entity<RideSchedule>()
+                .HasOne(p => p.Schedule)
+                .WithMany(rs => rs.RideSchedules)
+                .HasForeignKey(p => p.ScheduleId)
+                .HasConstraintName("Schedule_FK")
+                .OnDelete(DeleteBehavior.NoAction);
+
             #endregion
 
+            #region Available Seats
+
+
+
+            #endregion
         }
     }
 }

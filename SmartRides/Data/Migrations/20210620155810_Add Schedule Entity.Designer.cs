@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartRides.Data;
 
 namespace SmartRides.Data.Migrations
 {
     [DbContext(typeof(RidesDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210620155810_Add Schedule Entity")]
+    partial class AddScheduleEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,36 +221,6 @@ namespace SmartRides.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("SmartRides.Models.Entities.AvailableSeat", b =>
-                {
-                    b.Property<int>("AvailableSeatId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BusId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("RideScheduleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SeatId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AvailableSeatId");
-
-                    b.HasIndex("BusId");
-
-                    b.HasIndex("RideScheduleId");
-
-                    b.HasIndex("SeatId");
-
-                    b.ToTable("AvailableSeat");
-                });
-
             modelBuilder.Entity("SmartRides.Models.Entities.Bus", b =>
                 {
                     b.Property<int>("BusId")
@@ -274,6 +246,31 @@ namespace SmartRides.Data.Migrations
                     b.HasKey("BusId");
 
                     b.ToTable("Bus");
+                });
+
+            modelBuilder.Entity("SmartRides.Models.Entities.BusSeat", b =>
+                {
+                    b.Property<int>("BusSeatId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BusId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SeatId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BusSeatId");
+
+                    b.HasIndex("BusId");
+
+                    b.HasIndex("SeatId");
+
+                    b.ToTable("BusSeat");
                 });
 
             modelBuilder.Entity("SmartRides.Models.Entities.Driver", b =>
@@ -586,31 +583,23 @@ namespace SmartRides.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SmartRides.Models.Entities.AvailableSeat", b =>
+            modelBuilder.Entity("SmartRides.Models.Entities.BusSeat", b =>
                 {
                     b.HasOne("SmartRides.Models.Entities.Bus", "Bus")
-                        .WithMany("AvailableSeats")
+                        .WithMany("BusSeats")
                         .HasForeignKey("BusId")
                         .HasConstraintName("Bus_FK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartRides.Models.Entities.RideSchedule", "RideSchedule")
-                        .WithMany()
-                        .HasForeignKey("RideScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SmartRides.Models.Entities.Seat", "Seat")
-                        .WithMany("AvailableSeats")
+                        .WithMany("BusSeats")
                         .HasForeignKey("SeatId")
                         .HasConstraintName("Seat_FK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Bus");
-
-                    b.Navigation("RideSchedule");
 
                     b.Navigation("Seat");
                 });
@@ -704,7 +693,7 @@ namespace SmartRides.Data.Migrations
 
             modelBuilder.Entity("SmartRides.Models.Entities.Bus", b =>
                 {
-                    b.Navigation("AvailableSeats");
+                    b.Navigation("BusSeats");
 
                     b.Navigation("Driver");
                 });
@@ -737,7 +726,7 @@ namespace SmartRides.Data.Migrations
 
             modelBuilder.Entity("SmartRides.Models.Entities.Seat", b =>
                 {
-                    b.Navigation("AvailableSeats");
+                    b.Navigation("BusSeats");
                 });
 #pragma warning restore 612, 618
         }

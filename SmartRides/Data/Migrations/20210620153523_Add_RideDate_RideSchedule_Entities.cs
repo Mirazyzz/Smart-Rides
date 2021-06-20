@@ -20,7 +20,7 @@ namespace SmartRides.Data.Migrations
                 {
                     table.PrimaryKey("PK_RideDate", x => x.RideDateId);
                     table.ForeignKey(
-                        name: "Ride_FK",
+                        name: "RideDate_Ride_FK",
                         column: x => x.RideId,
                         principalTable: "Ride",
                         principalColumn: "RideId");
