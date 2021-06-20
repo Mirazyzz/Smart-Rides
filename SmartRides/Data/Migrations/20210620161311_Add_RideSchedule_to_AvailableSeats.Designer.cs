@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartRides.Data;
 
 namespace SmartRides.Data.Migrations
 {
     [DbContext(typeof(RidesDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210620161311_Add_RideSchedule_to_AvailableSeats")]
+    partial class Add_RideSchedule_to_AvailableSeats
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,42 +278,6 @@ namespace SmartRides.Data.Migrations
                     b.ToTable("Bus");
                 });
 
-            modelBuilder.Entity("SmartRides.Models.Entities.DiscountReason", b =>
-                {
-                    b.Property<int>("DiscountReasonId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("DiscountName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("DiscountReasonId");
-
-                    b.ToTable("DiscountReason");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.Displaying", b =>
-                {
-                    b.Property<int>("DisplayingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AvailableSeatsCount")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeparted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("RideScheduleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DisplayingId");
-
-                    b.ToTable("Displaying");
-                });
-
             modelBuilder.Entity("SmartRides.Models.Entities.Driver", b =>
                 {
                     b.Property<int>("DriverId")
@@ -490,90 +456,6 @@ namespace SmartRides.Data.Migrations
                     b.HasKey("SeatId");
 
                     b.ToTable("Seat");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.Ticket", b =>
-                {
-                    b.Property<int>("TicketId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DiscountReasonId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DisplayingId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("TicketClassAttributeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TicketNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TicketStatus")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketType")
-                        .HasColumnType("int");
-
-                    b.HasKey("TicketId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("DiscountReasonId");
-
-                    b.HasIndex("DisplayingId");
-
-                    b.HasIndex("TicketClassAttributeId");
-
-                    b.ToTable("Ticket");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.TicketClassAttribute", b =>
-                {
-                    b.Property<int>("TicketClassAttributeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("DiscountRate")
-                        .HasColumnType("float");
-
-                    b.Property<decimal>("StandardPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("TicketClassAttributeId");
-
-                    b.ToTable("TicketClassAttribute");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.TicketSeat", b =>
-                {
-                    b.Property<int>("TicketSeatId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("SeatId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TicketSeatId");
-
-                    b.HasIndex("SeatId");
-
-                    b.HasIndex("TicketId");
-
-                    b.ToTable("TicketSeat");
                 });
 
             modelBuilder.Entity("SmartRides.Models.Entities.User", b =>
@@ -823,79 +705,11 @@ namespace SmartRides.Data.Migrations
                     b.Navigation("Ride");
                 });
 
-            modelBuilder.Entity("SmartRides.Models.Entities.Ticket", b =>
-                {
-                    b.HasOne("SmartRides.Models.Entities.User", "Customer")
-                        .WithMany("Tickets")
-                        .HasForeignKey("CustomerId")
-                        .HasConstraintName("Customer_FK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SmartRides.Models.Entities.DiscountReason", "DiscountReason")
-                        .WithMany("Tickets")
-                        .HasForeignKey("DiscountReasonId")
-                        .HasConstraintName("DiscountReason_FK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SmartRides.Models.Entities.Displaying", "Displaying")
-                        .WithMany("Tickets")
-                        .HasForeignKey("DisplayingId")
-                        .HasConstraintName("Displaying_FK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SmartRides.Models.Entities.TicketClassAttribute", "TicketClassAttribute")
-                        .WithMany("Tickets")
-                        .HasForeignKey("TicketClassAttributeId")
-                        .HasConstraintName("TicketClassAttribute_FK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("DiscountReason");
-
-                    b.Navigation("Displaying");
-
-                    b.Navigation("TicketClassAttribute");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.TicketSeat", b =>
-                {
-                    b.HasOne("SmartRides.Models.Entities.Seat", "Seat")
-                        .WithMany()
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SmartRides.Models.Entities.Ticket", "Ticket")
-                        .WithMany("Seats")
-                        .HasForeignKey("TicketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Seat");
-
-                    b.Navigation("Ticket");
-                });
-
             modelBuilder.Entity("SmartRides.Models.Entities.Bus", b =>
                 {
                     b.Navigation("AvailableSeats");
 
                     b.Navigation("Driver");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.DiscountReason", b =>
-                {
-                    b.Navigation("Tickets");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.Displaying", b =>
-                {
-                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("SmartRides.Models.Entities.Location", b =>
@@ -932,21 +746,6 @@ namespace SmartRides.Data.Migrations
             modelBuilder.Entity("SmartRides.Models.Entities.Seat", b =>
                 {
                     b.Navigation("AvailableSeats");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.Ticket", b =>
-                {
-                    b.Navigation("Seats");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.TicketClassAttribute", b =>
-                {
-                    b.Navigation("Tickets");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.User", b =>
-                {
-                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }

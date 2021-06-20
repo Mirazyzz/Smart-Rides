@@ -22,6 +22,12 @@ namespace SmartRides.Data
         public DbSet<User> RideUsers { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<RideDate> RideDates { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<RideSchedule> RideSchedules { get; set; }
+        public DbSet<AvailableSeat> AvailableSeats { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketClassAttribute> TicketClassAttributes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -305,7 +311,6 @@ namespace SmartRides.Data
 
             #endregion
 
-
             #region Ride
 
             builder.Entity<Ride>()
@@ -392,28 +397,6 @@ namespace SmartRides.Data
 
             builder.Entity<Seat>()
                 .HasKey(p => p.SeatId);
-
-            #endregion
-
-            #region Bus Seat
-
-            builder.Entity<AvailableSeat>()
-                .ToTable(nameof(AvailableSeat));
-
-            builder.Entity<AvailableSeat>()
-                .HasKey(p => p.AvailableSeatId);
-
-            builder.Entity<AvailableSeat>()
-                .HasOne(p => p.Bus)
-                .WithMany(b => b.AvailableSeats)
-                .HasForeignKey(p => p.BusId)
-                .HasConstraintName("Bus_FK");
-
-            builder.Entity<AvailableSeat>()
-                .HasOne(p => p.Seat)
-                .WithMany(s => s.AvailableSeats)
-                .HasForeignKey(p => p.SeatId)
-                .HasConstraintName("Seat_FK");
 
             #endregion
 
@@ -527,6 +510,74 @@ namespace SmartRides.Data
 
             #region Available Seats
 
+            builder.Entity<AvailableSeat>()
+                .ToTable(nameof(AvailableSeat));
+
+            builder.Entity<AvailableSeat>()
+                .HasKey(p => p.AvailableSeatId);
+
+            builder.Entity<AvailableSeat>()
+                .HasOne(p => p.Bus)
+                .WithMany(b => b.AvailableSeats)
+                .HasForeignKey(p => p.BusId)
+                .HasConstraintName("Bus_FK");
+
+            builder.Entity<AvailableSeat>()
+                .HasOne(p => p.Seat)
+                .WithMany(s => s.AvailableSeats)
+                .HasForeignKey(p => p.SeatId)
+                .HasConstraintName("Seat_FK");
+
+            builder.Entity<AvailableSeat>()
+                .HasOne(p => p.RideSchedule)
+                .WithMany(rs => rs.AvailableSeats)
+                .HasForeignKey(p => p.RideScheduleId)
+                .HasConstraintName("AvailableSeat_FK");
+
+
+            #endregion
+
+            #region Ticket
+
+            builder.Entity<Ticket>()
+                .ToTable(nameof(Ticket));
+
+            builder.Entity<Ticket>()
+                .HasKey(p => p.TicketId);
+
+            builder.Entity<Ticket>()
+                .HasOne(p => p.Customer)
+                .WithMany(c => c.Tickets)
+                .HasForeignKey(p => p.CustomerId)
+                .HasConstraintName("Customer_FK");
+
+            builder.Entity<Ticket>()
+                .HasOne(p => p.Displaying)
+                .WithMany(d => d.Tickets)
+                .HasForeignKey(p => p.DisplayingId)
+                .HasConstraintName("Displaying_FK");
+
+            builder.Entity<Ticket>()
+                .HasOne(p => p.DiscountReason)
+                .WithMany(dr => dr.Tickets)
+                .HasForeignKey(p => p.DiscountReasonId)
+                .HasConstraintName("DiscountReason_FK");
+
+            builder.Entity<Ticket>()
+                .HasOne(p => p.TicketClassAttribute)
+                .WithMany(tca => tca.Tickets)
+                .HasForeignKey(p => p.TicketClassAttributeId)
+                .HasConstraintName("TicketClassAttribute_FK");
+
+            #endregion
+
+            #region Ticket Class Attribute
+
+            builder.Entity<TicketClassAttribute>()
+                .ToTable("TicketClassAttribute");
+
+            builder.Entity<TicketClassAttribute>()
+                .HasKey(p => p.TicketClassAttributeId);
 
 
             #endregion
