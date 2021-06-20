@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartRides.Data;
 
 namespace SmartRides.Data.Migrations
 {
     [DbContext(typeof(RidesDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210620143501_AddDriverBusEntities")]
+    partial class AddDriverBusEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,31 +248,6 @@ namespace SmartRides.Data.Migrations
                     b.ToTable("Bus");
                 });
 
-            modelBuilder.Entity("SmartRides.Models.Entities.BusSeat", b =>
-                {
-                    b.Property<int>("BusSeatId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BusId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("SeatId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BusSeatId");
-
-                    b.HasIndex("BusId");
-
-                    b.HasIndex("SeatId");
-
-                    b.ToTable("BusSeat");
-                });
-
             modelBuilder.Entity("SmartRides.Models.Entities.Driver", b =>
                 {
                     b.Property<int>("DriverId")
@@ -291,7 +268,7 @@ namespace SmartRides.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Salary")
-                        .HasColumnType("decimal(5,3)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("DriverId");
 
@@ -348,46 +325,6 @@ namespace SmartRides.Data.Migrations
                     b.ToTable("Ride");
                 });
 
-            modelBuilder.Entity("SmartRides.Models.Entities.RideDate", b =>
-                {
-                    b.Property<int>("RideDateId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<int>("RideId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RideDateId");
-
-                    b.HasIndex("RideId");
-
-                    b.ToTable("RideDate");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.RideSchedule", b =>
-                {
-                    b.Property<int>("RideScheduleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("RideDateId")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
-
-                    b.HasKey("RideScheduleId");
-
-                    b.HasIndex("RideDateId");
-
-                    b.ToTable("RideSchedule");
-                });
-
             modelBuilder.Entity("SmartRides.Models.Entities.RideStop", b =>
                 {
                     b.Property<int>("RideStopId")
@@ -408,106 +345,6 @@ namespace SmartRides.Data.Migrations
                     b.HasIndex("RideId");
 
                     b.ToTable("RideStop");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.Seat", b =>
-                {
-                    b.Property<int>("SeatId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Column")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsAtWindow")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Row")
-                        .HasColumnType("int");
-
-                    b.HasKey("SeatId");
-
-                    b.ToTable("Seat");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("Login")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("PromoCode")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Users");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.Customer", b =>
-                {
-                    b.HasBaseType("SmartRides.Models.Entities.User");
-
-                    b.Property<DateTime>("Birthdate")
-                        .HasColumnType("date");
-
-                    b.Property<int>("CustomerType")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Discount")
-                        .HasColumnType("float")
-                        .HasColumnName("Customer_Discount");
-
-                    b.Property<string>("PersonalIdentifier")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("Customer");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.Employee", b =>
-                {
-                    b.HasBaseType("SmartRides.Models.Entities.User");
-
-                    b.Property<decimal>("Discount")
-                        .HasPrecision(2)
-                        .HasColumnType("decimal(2,2)");
-
-                    b.Property<DateTime>("HireDate")
-                        .HasColumnType("date");
-
-                    b.HasDiscriminator().HasValue("Employee");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -561,27 +398,6 @@ namespace SmartRides.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SmartRides.Models.Entities.BusSeat", b =>
-                {
-                    b.HasOne("SmartRides.Models.Entities.Bus", "Bus")
-                        .WithMany("BusSeats")
-                        .HasForeignKey("BusId")
-                        .HasConstraintName("Bus_FK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SmartRides.Models.Entities.Seat", "Seat")
-                        .WithMany("BusSeats")
-                        .HasForeignKey("SeatId")
-                        .HasConstraintName("Seat_FK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bus");
-
-                    b.Navigation("Seat");
-                });
-
             modelBuilder.Entity("SmartRides.Models.Entities.Driver", b =>
                 {
                     b.HasOne("SmartRides.Models.Entities.Bus", "Bus")
@@ -615,30 +431,6 @@ namespace SmartRides.Data.Migrations
                     b.Navigation("StartPoint");
                 });
 
-            modelBuilder.Entity("SmartRides.Models.Entities.RideDate", b =>
-                {
-                    b.HasOne("SmartRides.Models.Entities.Ride", "Ride")
-                        .WithMany("RideDates")
-                        .HasForeignKey("RideId")
-                        .HasConstraintName("Ride_FK")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Ride");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.RideSchedule", b =>
-                {
-                    b.HasOne("SmartRides.Models.Entities.RideDate", "RideDate")
-                        .WithMany("RideSchedules")
-                        .HasForeignKey("RideDateId")
-                        .HasConstraintName("RideDate_FK")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("RideDate");
-                });
-
             modelBuilder.Entity("SmartRides.Models.Entities.RideStop", b =>
                 {
                     b.HasOne("SmartRides.Models.Entities.Location", "Location")
@@ -662,8 +454,6 @@ namespace SmartRides.Data.Migrations
 
             modelBuilder.Entity("SmartRides.Models.Entities.Bus", b =>
                 {
-                    b.Navigation("BusSeats");
-
                     b.Navigation("Driver");
                 });
 
@@ -678,19 +468,7 @@ namespace SmartRides.Data.Migrations
 
             modelBuilder.Entity("SmartRides.Models.Entities.Ride", b =>
                 {
-                    b.Navigation("RideDates");
-
                     b.Navigation("RideStops");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.RideDate", b =>
-                {
-                    b.Navigation("RideSchedules");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.Seat", b =>
-                {
-                    b.Navigation("BusSeats");
                 });
 #pragma warning restore 612, 618
         }

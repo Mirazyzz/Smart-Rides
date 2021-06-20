@@ -16,6 +16,13 @@ namespace SmartRides.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<Ride> Rides { get; set; }
         public DbSet<RideStop> RideStops { get; set; }
+        public DbSet<Bus> Buses { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
+        public DbSet<Seat> Seats { get; set; }
+        public DbSet<BusSeat> BusSeats { get; set; }
+        public DbSet<User> RideUsers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -373,7 +380,135 @@ namespace SmartRides.Data
             builder.Entity<Driver>()
                 .HasKey(p => p.DriverId);
 
+            builder.Entity<Driver>()
+                .Property(p => p.Salary)
+                .HasColumnType("decimal(5,3)");
+
             #endregion
+
+            #region Seat
+
+            builder.Entity<Seat>()
+                .ToTable(nameof(Seat));
+
+            builder.Entity<Seat>()
+                .HasKey(p => p.SeatId);
+
+            #endregion
+
+            #region Bus Seat
+
+            builder.Entity<BusSeat>()
+                .ToTable(nameof(BusSeat));
+
+            builder.Entity<BusSeat>()
+                .HasKey(p => p.BusSeatId);
+
+            builder.Entity<BusSeat>()
+                .HasOne(p => p.Bus)
+                .WithMany(b => b.BusSeats)
+                .HasForeignKey(p => p.BusId)
+                .HasConstraintName("Bus_FK");
+
+            builder.Entity<BusSeat>()
+                .HasOne(p => p.Seat)
+                .WithMany(s => s.BusSeats)
+                .HasForeignKey(p => p.SeatId)
+                .HasConstraintName("Seat_FK");
+
+            #endregion
+
+            #region User
+
+            builder.Entity<User>()
+                .ToTable("Users");
+
+            builder.Entity<User>()
+                .HasKey(p => p.UserId);
+
+            builder.Entity<User>()
+                .Property(p => p.FirstName)
+                .IsRequired()
+                .HasMaxLength(150);
+
+            builder.Entity<User>()
+                .Property(p => p.LastName)
+                .IsRequired()
+                .HasMaxLength(150);
+
+            builder.Entity<User>()
+                .Property(p => p.Login)
+                .IsRequired(false);
+
+            builder.Entity<User>()
+                .Property(p => p.Password)
+                .IsRequired(false);
+
+            #endregion
+
+            #region Customer
+
+            builder.Entity<Customer>()
+                .Property(p => p.PersonalIdentifier)
+                .HasMaxLength(250)
+                .IsRequired();
+
+            builder.Entity<Customer>()
+                .Property(p => p.Birthdate)
+                .HasColumnType("date");
+
+            #endregion
+
+            #region Employee
+
+            builder.Entity<Employee>()
+                .Property(p => p.HireDate)
+                .HasColumnType("date");
+
+            builder.Entity<Employee>()
+                .Property(p => p.Discount)
+                .HasPrecision(2);
+
+            #endregion
+
+            #region Ride Date
+
+            builder.Entity<RideDate>()
+                .ToTable("RideDate");
+
+            builder.Entity<RideDate>()
+                .HasKey(p => p.RideDateId);
+
+            builder.Entity<RideDate>()
+                .HasOne(p => p.Ride)
+                .WithMany(r => r.RideDates)
+                .HasForeignKey(p => p.RideId)
+                .HasConstraintName("Ride_FK")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<RideDate>()
+                .Property(p => p.Date)
+                .HasColumnType("date");
+
+            #endregion
+
+            #region Ride Schedule
+
+            builder.Entity<RideSchedule>()
+                .ToTable("RideSchedule");
+
+            builder.Entity<RideSchedule>()
+                .HasKey(p => p.RideScheduleId);
+
+            builder.Entity<RideSchedule>()
+                .HasOne(p => p.RideDate)
+                .WithMany(rd => rd.RideSchedules)
+                .HasForeignKey(p => p.RideDateId)
+                .HasConstraintName("RideDate_FK")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            #endregion
+
         }
     }
 }

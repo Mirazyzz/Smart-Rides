@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SmartRides.Models.Entities
 {
@@ -8,6 +7,7 @@ namespace SmartRides.Models.Entities
         public Ride()
         {
             RideStops = new List<RideStop>();
+            RideDates = new List<RideDate>();
         }
 
         public int RideId { get; set; }
@@ -19,5 +19,6 @@ namespace SmartRides.Models.Entities
         public Location DestinationPoint { get; set; }
 
         public ICollection<RideStop> RideStops { get; private set; }
+        public ICollection<RideDate> RideDates { get; private set; }
     }
 }

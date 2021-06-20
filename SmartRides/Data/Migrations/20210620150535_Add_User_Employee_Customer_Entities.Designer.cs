@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartRides.Data;
 
 namespace SmartRides.Data.Migrations
 {
     [DbContext(typeof(RidesDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210620150535_Add_User_Employee_Customer_Entities")]
+    partial class Add_User_Employee_Customer_Entities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -348,46 +350,6 @@ namespace SmartRides.Data.Migrations
                     b.ToTable("Ride");
                 });
 
-            modelBuilder.Entity("SmartRides.Models.Entities.RideDate", b =>
-                {
-                    b.Property<int>("RideDateId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<int>("RideId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RideDateId");
-
-                    b.HasIndex("RideId");
-
-                    b.ToTable("RideDate");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.RideSchedule", b =>
-                {
-                    b.Property<int>("RideScheduleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("RideDateId")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
-
-                    b.HasKey("RideScheduleId");
-
-                    b.HasIndex("RideDateId");
-
-                    b.ToTable("RideSchedule");
-                });
-
             modelBuilder.Entity("SmartRides.Models.Entities.RideStop", b =>
                 {
                     b.Property<int>("RideStopId")
@@ -615,30 +577,6 @@ namespace SmartRides.Data.Migrations
                     b.Navigation("StartPoint");
                 });
 
-            modelBuilder.Entity("SmartRides.Models.Entities.RideDate", b =>
-                {
-                    b.HasOne("SmartRides.Models.Entities.Ride", "Ride")
-                        .WithMany("RideDates")
-                        .HasForeignKey("RideId")
-                        .HasConstraintName("Ride_FK")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Ride");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.RideSchedule", b =>
-                {
-                    b.HasOne("SmartRides.Models.Entities.RideDate", "RideDate")
-                        .WithMany("RideSchedules")
-                        .HasForeignKey("RideDateId")
-                        .HasConstraintName("RideDate_FK")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("RideDate");
-                });
-
             modelBuilder.Entity("SmartRides.Models.Entities.RideStop", b =>
                 {
                     b.HasOne("SmartRides.Models.Entities.Location", "Location")
@@ -678,14 +616,7 @@ namespace SmartRides.Data.Migrations
 
             modelBuilder.Entity("SmartRides.Models.Entities.Ride", b =>
                 {
-                    b.Navigation("RideDates");
-
                     b.Navigation("RideStops");
-                });
-
-            modelBuilder.Entity("SmartRides.Models.Entities.RideDate", b =>
-                {
-                    b.Navigation("RideSchedules");
                 });
 
             modelBuilder.Entity("SmartRides.Models.Entities.Seat", b =>
