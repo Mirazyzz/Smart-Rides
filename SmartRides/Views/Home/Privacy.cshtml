@@ -1,6 +1,26 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿@using Syncfusion.EJ2
 
-<p>Use this page to detail your site's privacy policy.</p>
+<a asp-controller="FatwasAdmin" asp-action="Index">Fatwas</a>
+<a asp-controller="BooksAdmin" asp-action="Index">Books</a>
+
+<div class="control-section">
+    <div class="checkbox-control">
+        <div class="row">
+            <ejs-checkbox id="checked" checked="true" label="CheckBox: true" change="onChange"></ejs-checkbox>
+        </div>
+        <div class="row">
+            <ejs-checkbox id="disabled" disabled="true" checked="true" label="Checked,Disabled"></ejs-checkbox>
+        </div>
+        <div class="row">
+            <ejs-checkbox id="indeterminate" indeterminate="true" disabled="true" label="Intermediate,Disabled"></ejs-checkbox>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function onChange(args) {
+        this.label = 'CheckBox: ' + args.checked;
+    }
+</script>
