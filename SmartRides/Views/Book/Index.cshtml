@@ -108,7 +108,7 @@
                             <div class="control-wrapper">
                                 <div style='padding-top:65px;'>
                                     <div class="form-group">
-                                        <button class="btn btn-primary" style="width:75px; height:45px;">
+                                        <button class="btn btn-outline-primary" style="width:75px; height:45px;">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </div>
@@ -119,79 +119,81 @@
                 </div>
 
                 <!-- List items -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>
-                                <a asp-action="Index"
-                                   asp-route-sortOrder="@ViewData["StartPointStation"]"
-                                   asp-route-searchString="@ViewData["SearchString"]">
-                                    Start point station<i class="fa fa-sort"></i>
-                                </a>
-                            </th>
-                            <th style="width: 150px;">
-                                <a asp-action="Index"
-                                   asp-route-sortOrder="@ViewData["DestinationPointStation"]"
-                                   asp-route-searchString="@ViewData["SearchString"]">
-                                    Destination point station <i class="fa fa-sort"></i>
-                                </a>
-                            </th>
-                            <th style="width: 85px;">
-                                <a asp-action="Index"
-                                   asp-route-sortOrder="@ViewData["DepartureTime"]"
-                                   asp-route-searchString="@ViewData["SearchString"]">
-                                    Departure time <i class="fa fa-sort"></i>
-                                </a>
-                            </th>
-                            <th>
-                                <a asp-action="Index"
-                                   asp-route-sortOrder="@ViewData["ArrivalTime"]"
-                                   asp-route-searchString="@ViewData["SearchString"]">
-                                    Arrival time <i class="fa fa-sort"></i>
-                                </a>
-                            </th>
-                            <th>
-                                <a asp-action="Index"
-                                   asp-route-sortOrder="@ViewData["AvailableSeats"]"
-                                   asp-route-searchString="@ViewData["SearchString"]">
-                                    Available seats number <i class="fa fa-sort"></i>
-                                </a>
-                            </th>
-
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var ride in Model)
-                        {
+                <div>
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => ride.RideDate.Ride.StartPoint.StationName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => ride.RideDate.Ride.DestinationPoint.StationName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => ride.Schedule.DepartureTime)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => ride.Schedule.ArrivalTime)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => ride.AvailableSeats.Count())
-                                </td>
-                                <td>
-                                    <a class="btn btn-outline-info ml-2" asp-action="Details" asp-route-id="@ride.RideDateId">Details</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                <th>
+                                    <a asp-action="Index"
+                                       asp-route-sortOrder="@ViewData["StartPointStation"]"
+                                       asp-route-searchString="@ViewData["SearchString"]">
+                                        Start point station<i class="fa fa-sort"></i>
+                                    </a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a asp-action="Index"
+                                       asp-route-sortOrder="@ViewData["DestinationPointStation"]"
+                                       asp-route-searchString="@ViewData["SearchString"]">
+                                        Destination point station <i class="fa fa-sort"></i>
+                                    </a>
+                                </th>
+                                <th style="width: 85px;">
+                                    <a asp-action="Index"
+                                       asp-route-sortOrder="@ViewData["DepartureTime"]"
+                                       asp-route-searchString="@ViewData["SearchString"]">
+                                        Departure time <i class="fa fa-sort"></i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a asp-action="Index"
+                                       asp-route-sortOrder="@ViewData["ArrivalTime"]"
+                                       asp-route-searchString="@ViewData["SearchString"]">
+                                        Arrival time <i class="fa fa-sort"></i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a asp-action="Index"
+                                       asp-route-sortOrder="@ViewData["AvailableSeats"]"
+                                       asp-route-searchString="@ViewData["SearchString"]">
+                                        Available seats number <i class="fa fa-sort"></i>
+                                    </a>
+                                </th>
 
-                @{
-                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-                }
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ride in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => ride.RideDate.Ride.StartPoint.StationName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => ride.RideDate.Ride.DestinationPoint.StationName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => ride.Schedule.DepartureTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => ride.Schedule.ArrivalTime)
+                                    </td>
+                                    <td>
+                                        20
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-outline-info ml-2" asp-action="Details" asp-route-id="@ride.RideDateId">Details</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    @{
+                        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                    }
+                </div>
             </div>
 
             <hr class="mb-5" />

@@ -20,14 +20,16 @@ namespace SmartRides.Controllers
 
         public IActionResult Index(int? pageNumber)
         {
-            var locations = _context.Locations.ToList();
+            var locations = _context.Locations.AsNoTracking().ToList();
             var busTypes = GetBusTypeItems();
             var rides = _context.RideSchedules
-                .Include(s => s.RideDate)
+                .Include(rs => rs.AvailableSeats)
+                .Include(rs => rs.RideDate)
                 .ThenInclude(rd => rd.Ride)
-                .ThenInclude(r => r.DestinationPoint)
+                .ThenInclude(r => r.StartPoint)
                 .Include(rs => rs.Schedule)
-                .Include(rs => rs.AvailableSeats);
+                .AsNoTracking()
+                .ToList();
 
             ViewBag.data = locations;
             ViewBag.busTypes = busTypes;

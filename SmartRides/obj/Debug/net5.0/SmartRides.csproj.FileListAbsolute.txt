@@ -86,3 +86,6 @@ C:\Users\khido\OneDrive\Документы\GitHub\Smart-Rides\SmartRides\obj\Deb
 C:\Users\khido\OneDrive\Документы\GitHub\Smart-Rides\SmartRides\obj\Debug\net5.0\SmartRides.pdb
 C:\Users\khido\OneDrive\Документы\GitHub\Smart-Rides\SmartRides\obj\Debug\net5.0\SmartRides.genruntimeconfig.cache
 C:\Users\khido\OneDrive\Документы\GitHub\Smart-Rides\SmartRides\obj\Debug\net5.0\SmartRides.csprojAssemblyReference.cache
+C:\Users\khido\OneDrive\Документы\GitHub\Smart-Rides\SmartRides\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\khido\OneDrive\Документы\GitHub\Smart-Rides\SmartRides\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\khido\OneDrive\Документы\GitHub\Smart-Rides\SmartRides\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
